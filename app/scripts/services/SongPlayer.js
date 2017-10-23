@@ -22,8 +22,7 @@
          */
          var setSong = function(song) {
             if (currentBuzzObject) {
-                currentBuzzObject.stop();
-                SongPlayer.currentSong.playing = null;
+                stopSong();
             }
 
             currentBuzzObject = new buzz.sound(song.audioUrl, {
@@ -45,9 +44,24 @@
            //play current buzz object currentBuzzObject.play()
            currentBuzzObject.play();
 
-           //set playing property of song object to true song.playing = true
+           //set playing property of song object to true; song.playing = true
            song.playing = true;
          }
+
+
+         /**
+         *@function stopSong
+         *@desc Stops the selected song and sets song objects .playing property to null
+         *@param {Object} song
+         */
+         var stopSong = function(song){
+           //stop current buzz object currentBuzzObject.stop()
+           currentBuzzObject.stop();
+
+           //set playing property of song object to null; song.playing = null
+           SongPlayer.currentSong.playing = null;
+         }
+
 
          /**
          *@function getSongIndex
@@ -96,15 +110,31 @@
           /**
           *@method SongPlayer.previous
           *@desc Changes the index of the currentSong to the previous track
-          *@param {Object} song
           */
           SongPlayer.previous = function() {
               var currentSongIndex = getSongIndex(SongPlayer.currentSong);
               currentSongIndex--;
 
               if (currentSongIndex < 0) {
-                currentBuzzObject.stop();
-                SongPlayer.currentSong.playing = null;
+                  stopSong();
+              } else {
+                  var song = currentAlbum.songs[currentSongIndex];
+                  setSong(song);
+                  playSong(song);
+              }
+          };
+
+
+          /**
+          *@method SongPlayer.next
+          *@desc Changes the index of the currentSong to the next track
+          */
+          SongPlayer.next = function() {
+              var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+              currentSongIndex++;
+
+              if (currentSongIndex == currentAlbum.songs.length) {
+                  stopSong();
               } else {
                   var song = currentAlbum.songs[currentSongIndex];
                   setSong(song);
