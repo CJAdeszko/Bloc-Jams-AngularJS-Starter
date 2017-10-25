@@ -35,7 +35,7 @@
                     SongPlayer.currentTime = currentBuzzObject.getTime();
                 });
             });
-            
+
             SongPlayer.currentSong = song;
          };
 
@@ -93,6 +93,13 @@
         * @type {Number}
         */
         SongPlayer.currentTime = null;
+
+
+        /**
+        * @desc Current playback volume
+        * @type {Number}
+        */
+        SongPlayer.volume = 30;
 
 
          /**
@@ -167,6 +174,14 @@
               }
           };
 
+
+          /**
+          *@function setVolume
+          *@desc Sets the playback volume
+          */
+          SongPlayer.setVolume = function(volume){
+            currentBuzzObject.setVolume(volume);
+          };
 
          return SongPlayer;
     }
